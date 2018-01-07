@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "netWorkManager"
+  s.name         = "FYXSWorkManager"
   s.version      = "1.0.0"
   s.summary      = "A tool to get data! Support: https://www.jianshu.com/u/2c9b2b3d3814"
   s.homepage     = "https://github.com/yuyuepeng/netWorkManager"
