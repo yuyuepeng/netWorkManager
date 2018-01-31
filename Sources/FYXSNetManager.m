@@ -7,7 +7,7 @@
 //
 
 #import "FYXSNetManager.h"
-
+#import <UIKit/UIKit.h>
 @interface FYXSNetManager()
 
 @property(nonatomic, strong) NSURLSession *session;
@@ -56,8 +56,14 @@
             
         }else {
             if (succeeded) {
+//                UIImage *image = [UIImage imageWithData:data];
+                
                 id obj = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-                succeeded(0,obj);
+                if (obj) {
+                    succeeded(0,obj);
+                }else {
+//                    succeeded(0,image);
+                }
             }
         }
     }];
@@ -68,6 +74,12 @@
 - (void)getDataWithBaseUrl:(NSString *)url path:(NSString *)path params:(NSDictionary *)params token:(NSString *)token succeeded:(succeeded)succeeded failed:(failed)failed {
     NSString *baseUrl = [self baseUrl:url path:path parameters:params token:token];
     [self getDataWithUrl:baseUrl succeeded:succeeded failed:failed];
+}
+- (void)postDataWithBaseUrl:(NSString *)url path:(NSString *)path params:(NSDictionary *)params token:(NSString *)token succeeded:(succeeded)succeeded failed:(failed)failed {
+    NSString *baseUrl = [self baseUrl:url path:path parameters:nil token:nil];
+    
+
+    
 }
 - (NSString *)baseUrl:(NSString *)baseUrl path:(NSString *)path parameters:(NSDictionary *)parameters token:(NSString *)token {
     NSMutableString *url = [[NSMutableString alloc] initWithFormat:@"%@",baseUrl];

@@ -34,10 +34,19 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (void)startRequest {
-    
-    [self.netManager getDataWithBaseUrl:@"http://ek7efpZ.91xianpai.com/Index/getRecommendList" path:nil params:nil token:nil succeeded:^(NSInteger status, id response) {
+    typeof(self) __weak weakself = self;
+//    http://ek7efpZ.91xianpai.com/Index/getRecommendList
+    [self.netManager getDataWithBaseUrl:@"http://img1.imgtn.bdimg.com/it/u=594559231,2167829292&fm=27&gp=0.jpg" path:nil params:nil token:nil succeeded:^(NSInteger status, id response) {
         if (status == 0) {
-            NSLog(@" successData: %@", response);
+            if ([response isKindOfClass:[UIImage class]]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, 300)];
+                    [imageView setImage:(UIImage *)response];
+                    [weakself.view addSubview:imageView];
+                });
+            }else {
+                NSLog(@" successData: %@", response);
+            }
 
         }
     } failed:^(NSInteger status, NSString *error) {

@@ -74,12 +74,5 @@ typedef void(^failed)(NSInteger status, NSString *error);
  @param failed 失败的回调
  */
 - (void)postDataWithBaseUrl:(NSString *)url path:(NSString *)path params:(NSDictionary *)params token:(NSString *)token succeeded:(succeeded)succeeded failed:(failed)failed;
-/**
- 根据url来请求数据
- 
- @param url url
- @param succeeded  成功的回调
- @param failed 失败的回调
- */
-- (void)postDataWithUrl:(NSString *)url;
+
 @end
