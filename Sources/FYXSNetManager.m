@@ -12,6 +12,7 @@
 
 @property(nonatomic, strong) NSURLSession *session;
 
+
 @end
 
 @implementation FYXSNetManager
@@ -77,7 +78,34 @@
 }
 - (void)postDataWithBaseUrl:(NSString *)url path:(NSString *)path params:(NSDictionary *)params token:(NSString *)token succeeded:(succeeded)succeeded failed:(failed)failed {
     NSString *baseUrl = [self baseUrl:url path:path parameters:nil token:nil];
+    NSURL  * url1 = [NSURL URLWithString:baseUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url1];
+    request.HTTPMethod = @"POST";
+    NSString *bound = @"boundary";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data;boundary=%@",bound];
+    [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
+    NSMutableString *bodyHeaderStr = [NSMutableString stringWithFormat:@"--%@\r\n",bound];
+    [bodyHeaderStr appendFormat:@"Content-Disposition: form-data; name=%@; filename=%@\r\n",@"userfile",@"JSON"];
+    [bodyHeaderStr appendString:@"Content-Type: application/octet-stream\r\n\r\n"];//两个换行
+//NSData *imageData =
+    UIImage *image1 = [UIImage imageNamed:@"icon"];
+    NSData *filedata;
+    if (UIImagePNGRepresentation(image1) == nil) {
+        filedata = UIImageJPEGRepresentation(image1, 1);
+    }else {
+        filedata = UIImagePNGRepresentation(image1);
+    }
+    NSMutableString *bodyFooterStr = [NSMutableString stringWithFormat:@"\r\n--%@--",bound];
+
+    NSMutableData *bodyData = [NSMutableData data];
+    [bodyData appendData:[bodyHeaderStr dataUsingEncoding:NSUTF8StringEncoding]];
+    [bodyData appendData:filedata];
+    [bodyData appendData:[bodyFooterStr dataUsingEncoding:NSUTF8StringEncoding]];
     
+    NSURLSessionUploadTask *uploadTask = [_session uploadTaskWithRequest:request fromData:bodyData completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"--------%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    }];
+    [uploadTask resume];
 
     
 }

@@ -31,10 +31,17 @@
     [button setTitle:@"请求数据" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(startRequest) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
+//    UIImage *image = [UIImage imageNamed:@"icon"];
+
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (void)startRequest {
     typeof(self) __weak weakself = self;
+    [self.netManager postDataWithBaseUrl:@"http://ek7efpZ.91xianpai.com/" path:@"Index/newAddGoods" params:nil token:nil succeeded:^(NSInteger status, id response) {
+        
+    } failed:^(NSInteger status, NSString *error) {
+        
+    }];
 //    http://ek7efpZ.91xianpai.com/Index/getRecommendList
     [self.netManager getDataWithBaseUrl:@"http://img1.imgtn.bdimg.com/it/u=594559231,2167829292&fm=27&gp=0.jpg" path:nil params:nil token:nil succeeded:^(NSInteger status, id response) {
         if (status == 0) {
